@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="site-main">
     <top-hd :title="hdTitle" class="l-hd"></top-hd>
     <div class="login-img">
         <img src="../../assets/images/login-img.jpg">

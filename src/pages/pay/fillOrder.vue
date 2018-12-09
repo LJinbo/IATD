@@ -1,5 +1,5 @@
 <template>
-    <div class="fillOrder grayBg">
+    <div class="fillOrder grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="addr flex-box flex-align-center">
             <div class="Avatar"><img src="../../assets/images/Avatar.png" alt=""></div>

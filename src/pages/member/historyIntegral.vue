@@ -1,5 +1,5 @@
 <template>
-    <div class="history grayBg">
+    <div class="history grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="history-list">
             <div class="item">

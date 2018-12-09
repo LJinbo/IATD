@@ -1,28 +1,28 @@
 <template>
-    <div class="orders grayBg">
+    <div class="orders grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="container">
             <div class="tabs">
                 <ul class="flex-box">
-                    <li :class="{'active': acTab == 'all'}" @click="switchTab('all')">全部</li>
-                    <li :class="{'active': acTab == 'wait'}" @click="switchTab('wait')">待审核</li>
-                    <li :class="{'active': acTab == 'error'}" @click="switchTab('error')">审核失败</li>
-                    <li :class="{'active': acTab == 'success'}" @click="switchTab('success')">已完成</li>
-                    <li :class="{'active': acTab == 'cancel'}" @click="switchTab('cancel')">已取消</li>
+                    <li :class="{'active': acTab == 'all'}" @click="switchTab('all',0)">全部</li>
+                    <li :class="{'active': acTab == 'wait'}" @click="switchTab('wait',1)">待审核</li>
+                    <li :class="{'active': acTab == 'error'}" @click="switchTab('error',2)">审核失败</li>
+                    <li :class="{'active': acTab == 'success'}" @click="switchTab('success',3)">已完成</li>
+                    <li :class="{'active': acTab == 'cancel'}" @click="switchTab('cancel',4)">已取消</li>
                 </ul>
             </div>
             <ul class="order-list">
-                <li class="item">
+                <li class="item" :key="item.Order_ID" v-for="item in orderList">
                     <div class="order-Status flex-box flex-space-between">
                         <div class="num">
-                            订单编号：<span>11977240</span>
+                            订单编号：<span>{{item.Order_Number}}</span>
                         </div>
-                        <div class="Status">待审核</div>
+                        <div class="Status">{{Order_Status[item.Order_Status]}}</div>
                     </div>
                     <div class="goods-info flex-box flex-align-center">
                         <div class="goods-img"><img src="../../assets/images/sample-s.png" alt=""></div>
                         <div class="text flex-1">
-                            <p class="name">3M™ Laser Markable Label Stock</p>
+                            <p class="name">{{item.Order_Product_Name}}</p>
                             <p class="price">积分：99分</p>
                         </div>
                         <div class="goods-num">
@@ -30,8 +30,8 @@
                         </div>
                     </div>
                     <div class="order-info">
-                        <p class="flex-box flex-space-between"><span>总积分：180 分</span> <span>审核：Jimmy</span></p>
-                        <p>申请时间：2018-10-31 15:00:00</p>
+                        <p class="flex-box flex-space-between"><span>总积分：180 分</span> <span>审核：{{item.Order_CheckUserName}}</span></p>
+                        <p>申请时间：{{item.Order_CreateTime}}</p>
                     </div>
                 </li>
             </ul>
@@ -44,12 +44,30 @@ export default {
     data () {
         return {
              hdTitle: '3M IATD 我的订单',
-             acTab: 'all'
+             acTab: 'all',
+             userInfo: '',
+             orderList: [],
+             Order_Status: {
+                 1:'待审核',
+                 2:'审核失败',
+                 3:'审核成功',
+                 4:'取消'
+             }
         }
     },
+    created() {
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.$post('/api/WxWeb/GetOrderList',{'Order_UserID':this.userInfo.User_Id,'Order_Status': '0'}).then(res=> {
+            this.orderList = res.result
+            console.log(res);
+        })
+    },
     methods: {
-        switchTab (el) {
+        switchTab (el,cate) {
             this.acTab = el;
+            this.$post('/api/WxWeb/GetOrderList',{'Order_UserID':this.userInfo.User_Id,'Order_Status': cate}).then(res=> {
+            this.orderList = res.result
+        })
         }
     },
     components: {

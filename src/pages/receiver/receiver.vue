@@ -1,45 +1,13 @@
 <template>
     <div class="container">
         <ul class="list">
-            <li class="active" v-for="item in addresList">
+            <li :class="{'active': item.User_IsDeafult}" :key="item.ID" v-for="item in addresList">
                 <div class="select"></div>
                 <div class="message">
                     <p><span class="name">{{item.User_Name}}</span><span class="phone">{{item.User_Phone}}</span></p>
-                    <p class="address">上海市 徐汇区 XXXXXXXXXXXXXXXXXX</p>
+                    <p class="address">{{item.ProvinceName}}&nbsp;{{item.Cname}}{{item.Aname}}{{item.User_Street}}</p>
                 </div>
-                <router-link :to="{name:'editReceiver'}" tag="div" class="edit"></router-link>
-            </li>
-            <li>
-                <div class="select"></div>
-                <div class="message">
-                    <p><span class="name">Wyijie</span><span class="phone">138****5941</span></p>
-                    <p class="address">上海市 徐汇区 XXXXXXXXXXXXXXXXXX</p>
-                </div>
-                <router-link :to="{name:'editReceiver'}" tag="div" class="edit"></router-link>
-            </li>
-            <li>
-                <div class="select"></div>
-                <div class="message">
-                    <p><span class="name">Wyijie</span><span class="phone">138****5941</span></p>
-                    <p class="address">上海市 徐汇区 XXXXXXXXXXXXXXXXXX</p>
-                </div>
-                <router-link :to="{name:'editReceiver'}" tag="div" class="edit"></router-link>
-            </li>
-            <li>
-                <div class="select"></div>
-                <div class="message">
-                    <p><span class="name">Wyijie</span><span class="phone">138****5941</span></p>
-                    <p class="address">上海市 徐汇区 XXXXXXXXXXXXXXXXXX</p>
-                </div>
-                <router-link :to="{name:'editReceiver'}" tag="div" class="edit"></router-link>
-            </li>
-            <li>
-                <div class="select"></div>
-                <div class="message">
-                    <p><span class="name">Wyijie</span><span class="phone">138****5941</span></p>
-                    <p class="address">上海市 徐汇区 XXXXXXXXXXXXXXXXXX</p>
-                </div>
-                <router-link :to="{name:'editReceiver'}" tag="div" class="edit"></router-link>
+                <div class="edit" @click="editReceiver(item)"></div>
             </li>
         </ul>
         <router-link :to="{name:'addReceiver'}" tag="button" class="btn add-address longBtn"><span class="addr-icon"></span>添加新收货人</router-link>
@@ -59,6 +27,14 @@ export default{
             console.log(res);
             this.addresList = res.result
         })
+    },
+    methods: {
+        editReceiver(obj) {
+            let sObj = JSON.stringify(obj);
+            localStorage.setItem('editReceiver',sObj);
+            this.$router.push({name: 'editReceiver'});
+        }
+        
     }
 }
 </script>
@@ -81,6 +57,9 @@ export default{
                 }
                 &.address{
                     margin-top:.15rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="receiver grayBg">
+    <div class="receiver grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <router-view></router-view>
     </div>
@@ -70,8 +70,9 @@ export default {
         &.save{
             margin-top:.9rem;
         }
-        button{
+        button,.btn{
             width: 80%;
+            display: inline-block;
             border: none;
             padding: 0;
             background: #E70022;

@@ -1,5 +1,5 @@
 <template>
-    <div class="sample grayBg">
+    <div class="sample grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="tabs">
             <ul class="flex-box">

@@ -39,22 +39,37 @@ export default {
     methods: {
         onSubmit() {
             if(!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.iphone)){
-                console.log('请输入正确的手机号码')
+                this.$Toast({
+                    message: '请输入正确的手机号码',
+                    position: 'middle',
+                    duration: 2000
+                });
                 return false;
             }else if(this.code.toLocaleLowerCase() == this.iCode || this.code == this.iCode){
                 this.IsDisabled = true;
                 this.$post('/api/WxWeb/UserLogin',{'User_Role_Type':'2','User_Name': this.PIN,'User_Cell': this.iphone}).then( res =>{
-                    console.log(res);
+                    this.$Toast({
+                        message: res.msg,
+                        position: 'middle',
+                        duration: 2000
+                    });
                      this.IsDisabled = false;
                     if(res.status == 1){
-                        this.$router.push({name: 'member'});
+                        let s = setTimeout( () => {
+                            clearTimeout(s)
+                            this.$router.push({name: 'member'});
+                        },2000)
                         localStorage.setItem('userInfo',JSON.stringify(res.result));
                     }else{
                         this.code = createCode();
                     }
                 })
             }else {
-                console.log('验证码错误')
+                this.$Toast({
+                    message: '验证码错误',
+                    position: 'middle',
+                    duration: 2000
+                });
                 this.code = createCode();
                 return false;
             }

@@ -1,5 +1,5 @@
 <template>
-    <div class="memberIndex grayBg">
+    <div class="memberIndex grayBg site-main">
         <div class="userInfo">
             <top-hd :title="hdTitle"></top-hd>
             <div class="info mt30 flex-box flex-justify-center">

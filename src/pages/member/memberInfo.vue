@@ -1,5 +1,5 @@
 <template>
-    <div class="memberIndex grayBg">
+    <div class="memberIndex grayBg site-main">
         <div class="userInfo">
             <top-hd :title="hdTitle"></top-hd>
             <div class="info mt30 flex-box flex-center">
@@ -7,10 +7,9 @@
                     <div class="Avatar">
                         <img src="../../assets/images/Avatar.png" alt="">
                     </div>
-                    <p>经销商</p>
+                    <p>{{userType}}</p>
                 </div>
-                <div class="user-name">
-                    Nick Name
+                <div class="user-name" v-text="userInfo.User_Name||userInfo.User_Cell">
                 </div>
             </div>
         </div>
@@ -19,13 +18,20 @@
                 <div class="label">
                     用户ID
                 </div>
-                <input type="text">  
+                <input type="text" readonly v-model.trim="userInfo.User_Id">
+            </div>
+            <div class="input-group">
+                <div class="label">
+                    用户名
+                </div>
+                <input type="text" v-model.trim="userInfo.User_Name">  
             </div>
             <div class="input-group">
                 <div class="label">
                     城市
                 </div>
-                <select name="city" id="" placeholder="请选择城市">
+                <select v-model="userInfo.City">
+                    <option value="" selected>请选择城市</option>
                     <option value="shenzhen">深圳</option>
                     <option value="beijing">北京</option>
                     <option value="shanghai">上海</option>
@@ -35,7 +41,7 @@
                 <div class="label">
                     公司
                 </div>
-                <input type="text" placeholder="填写公司">
+                <input type="text" placeholder="填写公司" v-model.trim="userInfo.Company">
             </div>
             <div class="input-group">
                 <div class="label">
@@ -59,6 +65,9 @@
                 </div>
                 <input type="text" placeholder="填写销售人员">
             </div>
+            <div class="btn-group mt50">
+                <button @click="onSubmit" class="btn">保存</button>
+            </div>
         </div>
     </div>
 </template>
@@ -67,7 +76,38 @@ import topHd from '../../components/topHd'
 export default {
     data () {
         return {
-             hdTitle: '3M IATD 会员信息'
+             hdTitle: '3M IATD 会员信息',
+             userInfo: {}
+        }
+    },
+    created() {
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    },
+    computed: {
+        userType () {
+            if(this.userInfo.User_Role_Type ==2){
+                return '3M员工'
+            }else if(this.userInfo.User_Role_Type ==3){
+                return '经销商'
+            }else if(this.userInfo.User_Role_Type ==4){
+                return '授权用户'
+            }
+        }
+    },
+    methods: {
+        onSubmit() {
+            this.$post('/api/WxWeb/SaveUserInfo',{
+                'User_Id':this.userInfo.User_Id,
+                'City': this.userInfo.City,
+                'User_Name': this.userInfo.User_Name,
+                'Company': this.userInfo.Company,
+            }).then(res=> {
+                this.$Toast({
+                    message: res.msg,
+                    position: 'middle',
+                    duration: 2000
+                });
+            })
         }
     },
     components: {
@@ -137,6 +177,21 @@ export default {
         select{
             border: none;
             height: .65rem;
+        }
+    }
+    .btn-group{
+        text-align: center;
+        .btn{
+            width: 80%;
+            display: inline-block;
+            border: none;
+            padding: 0;
+            background: #E70022;
+            color: #fff;
+            font-size: .3rem;
+            height: .77rem;
+            line-height: .77rem;
+            border-radius: .35rem;
         }
     }
 }

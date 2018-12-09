@@ -1,5 +1,5 @@
 <template>
-    <div class="sample-detail grayBg">
+    <div class="sample-detail grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="container">
             <div class="sample-Album section">
@@ -81,6 +81,7 @@ export default {
 </script>
 <style lang="scss">
 .sample-detail{
+    position: relative;
     .container{
         margin-top: .38rem;
     }

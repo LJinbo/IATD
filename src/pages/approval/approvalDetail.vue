@@ -1,5 +1,5 @@
 <template>
-    <div class="approvalDetail grayBg">
+    <div class="approvalDetail grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="container">
             <div class="status flex-box flex-center section">

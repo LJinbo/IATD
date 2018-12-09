@@ -1,5 +1,5 @@
 <template>
-    <div class="success grayBg">
+    <div class="success grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="container">
             <div class="s-icon">

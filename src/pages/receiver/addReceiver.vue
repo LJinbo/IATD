@@ -105,11 +105,12 @@ export default{
         },
         onSubmit () {
             this.$post('/api/WxWeb/SaveAddress',{'UserID':this.userInfo.User_Id,'User_Province': this.User_Province,'User_City': this.User_City,'User_Area': this.User_Area,'User_Street': this.User_Street,'User_Code': this.User_Code,'User_Phone':this.phone,'User_Name': this.name,'User_IsDeafult':'1'}).then( res=> {
-                console.log(res);
+                this.$Toast({
+                    message: res.msg,
+                    position: 'middle',
+                    duration: 2000
+                });
             })
-        },
-        onValuesChange () {
-
         }
     }
     

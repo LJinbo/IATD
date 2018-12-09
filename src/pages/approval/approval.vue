@@ -1,5 +1,5 @@
 <template>
-    <div class="approval grayBg">
+    <div class="approval grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
         <div class="container">
             <div class="tabs">
