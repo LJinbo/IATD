@@ -1,0 +1,77 @@
+@charset "utf-8";
+@import "base";
+@import "variables";
+html,body{
+    height: 100%;
+}
+body>div{
+    min-height: 100%;
+}
+body{
+    font-size:.24rem;
+    font-family: "黑体",PingFangSC,STHeiti,'Microsoft YaHei',Helvetica,Arial;
+    color: $fontColor;
+    max-width: 7.5rem;
+    min-width: 320px;
+    margin: 0 auto;
+}
+img{
+    max-width: 100%;
+    vertical-align: middle;
+}
+input,select{
+    outline: none;
+    background: none;
+}
+button{
+    outline: none;
+}
+.grayBg{
+    background: $bgColor;
+}
+.flex-box{
+    display: flex;
+}
+.flex-center{
+    justify-content: center;
+    align-items: center;
+}
+.flex-space-between{
+    justify-content: space-between;
+}
+.flex-justify-center{
+    justify-content: center;
+}
+.flex-align-center{
+    align-items: center;
+}
+.flex-1{
+    flex:1;
+    width: 1px;
+}
+.mt50{
+    margin-top:.5rem;
+}
+.mt20{
+    margin-top:.2rem;
+}
+.mt30{
+    margin-top:.3rem;
+}
+.mb20{
+    margin-top:.2rem;
+}
+.mb0{
+    margin-bottom: 0!important;
+}
+.btn.longBtn{
+    width: 100%;
+    border: none;
+    padding: 0;
+    background: #E70022;
+    color: #fff;
+    font-size: .3rem;
+    height: .77rem;
+    line-height: .77rem;
+    border-radius: .35rem;
+}
