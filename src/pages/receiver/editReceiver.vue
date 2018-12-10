@@ -61,10 +61,6 @@ export default{
             console.log(res);
             this.addres = res;
         })
-        // this.name = receiver.User_Name;
-        // this.$post('/api/WxWeb/SaveAddress',{'ID':this.ID,'UserID': this.userInfo.User_Id}).then(res=> {
-        //     console.log(res);
-        // }) 
     },
     computed: {
         provinceList () {
@@ -104,12 +100,16 @@ export default{
             this.receiver.User_Area = '';
         },
         onSubmit () {
-            this.$post('/api/WxWeb/SaveAddress',{'ID':this.receiver.ID,'UserID':this.userInfo.User_Id,'User_Province': this.receiver.User_Province,'User_City': this.receiver.User_City,'User_Area': this.receiver.User_Area,'User_Street': this.receiver.User_Street,'User_Code': this.receiver.User_Code,'User_Phone':this.receiver.User_Phone,'User_Name': this.receiver.User_Name,'User_IsDeafult': 0}).then(res=> {
+            this.$post('/api/WxWeb/SaveAddress',{'ID':this.receiver.ID,'UserID':this.userInfo.User_Id,'User_Province': this.receiver.User_Province,'User_City': this.receiver.User_City,'User_Area': this.receiver.User_Area,'User_Street': this.receiver.User_Street,'User_Code': this.receiver.User_Code,'User_Phone':this.receiver.User_Phone,'User_Name': this.receiver.User_Name,'User_IsDeafult': Number(this.receiver.User_IsDeafult)}).then(res=> {
                 this.$Toast({
                     message: res.msg,
                     position: 'middle',
                     duration: 2000
                 });
+                let s = setTimeout( () => {
+                    clearTimeout(s)
+                    this.$router.push({name: 'receiver'});
+                },2000)
             })
         },
         deleteReceiver () {
@@ -119,6 +119,10 @@ export default{
                     position: 'middle',
                     duration: 2000
                 });
+                let s = setTimeout( () => {
+                    clearTimeout(s)
+                    this.$router.push({name: 'receiver'});
+                },2000)
             })
         }
     }

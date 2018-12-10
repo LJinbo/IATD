@@ -48,9 +48,9 @@
                     细分市场
                 </div>
                 <div class="market">
-                    <div class="item active"><span class="icon"></span>市场1</div>
-                    <div class="item"><span class="icon"></span>市场2</div>
-                    <div class="item"><span class="icon"></span>市场3</div>
+                    <div class="item" :class="{'active': Market==1}" @click="switchMarket(1)"><span class="icon"></span>市场1</div>
+                    <div class="item" :class="{'active': Market==2}" @click="switchMarket(2)"><span class="icon"></span>市场2</div>
+                    <div class="item" :class="{'active': Market==3}" @click="switchMarket(3)"><span class="icon"></span>市场3</div>
                 </div>
             </div>
             <div class="input-group">
@@ -77,7 +77,8 @@ export default {
     data () {
         return {
              hdTitle: '3M IATD 会员信息',
-             userInfo: {}
+             userInfo: {},
+             Market: 1
         }
     },
     created() {
@@ -102,12 +103,16 @@ export default {
                 'User_Name': this.userInfo.User_Name,
                 'Company': this.userInfo.Company,
             }).then(res=> {
+                localStorage.setItem('userInfo',JSON.stringify(res.result));
                 this.$Toast({
                     message: res.msg,
                     position: 'middle',
                     duration: 2000
                 });
             })
+        },
+        switchMarket (index) {
+            this.Market = index;
         }
     },
     components: {

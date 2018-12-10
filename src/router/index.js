@@ -8,6 +8,7 @@ import memberView from '../pages/member/index'
 
 import receiverIndex from '../pages/receiver/index'
 import receiverView from '../pages/receiver/receiver'
+import selectReceiver from '../pages/receiver/select'
 import editReceiver from '../pages/receiver/editReceiver'
 import addReceiver from '../pages/receiver/addReceiver'
 import fillOrder from '../pages/pay/fillOrder'
@@ -83,6 +84,14 @@ export default new Router({
           path: 'index',
           name: 'receiver',
           component: receiverView,
+          meta: {
+            title: '3M IATD 选择收货人'
+          }
+        },
+        {
+          path: 'select',
+          name: 'selectReceiver',
+          component: selectReceiver,
           meta: {
             title: '3M IATD 选择收货人'
           }

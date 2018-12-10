@@ -11,8 +11,8 @@
                 <span class="price">支付积分<span>180分</span></span>
             </div>
             <div class="btn-group">
-                <div class="btn">查看订单</div>
-                <div class="btn">回到首页</div>
+                <router-link :to="{name: 'orders'}" tag="div" class="btn">查看订单</router-link>
+                <router-link :to="{name: 'member'}" tag="div" class="btn">回到首页</router-link>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="hot">
         <ul class="sample-list flex-box">
-            <router-link :to="{name:'detail'}" tag="li" class="item" v-for="item in productList">
+            <router-link :to="{name:'detail',query:{id:item.Product_ID}}" tag="li" class="item" v-for="item in productList">
                 <div class="img-box flex-box flex-center"><span class="tag">新品</span><img src="../../assets/images/sample-big.png" alt=""></div>
                 <div class="s-name">{{item.Product_Name}}</div>
                 <div class="price">积分：999分</div>
@@ -21,6 +21,7 @@ export default {
     created() {
         this.$post("/api/WxWeb/GetProductList",{'Opt':0}).then( res=> {
             this.productList = res.result
+            console.log(res)
         })
     },
 }
