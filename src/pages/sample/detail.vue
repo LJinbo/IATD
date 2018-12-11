@@ -14,11 +14,11 @@
                 </div>
             </div>
             <div class="sample-info section">
-                <div><div class="label">样品类别</div><div class="text">70002474032</div> </div>
+            <div><div class="label">样品类别</div><div class="text">{{pdetail.Product_Type}}</div> </div>
                 <div><div class="label">货号/SKU</div><div class="text">{{pdetail.Product_Sku}}</div></div>
-                <div><div class="label">是否非标</div><div class="text">70002474032</div></div>
-                <div><div class="label">单位</div><div class="text">70002474032</div></div>
-                <div><div class="label">原包装规格</div><div class="text">70002474032</div></div>
+                <div><div class="label">是否非标</div><div class="text">{{pdetail.Product_IsStandard}}</div></div>
+                <div><div class="label">单位</div><div class="text">{{pdetail.Product_Unit}}</div></div>
+                <div><div class="label">原包装规格</div><div class="text">{{pdetail.Product_Capacity}}</div></div>
             </div>
             <div class="sample-intr section mb0">
                 <div class="hd">
@@ -72,7 +72,9 @@ export default {
         let pId = this.$route.query.id;
         this.$post('/api/WxWeb/GetProductList',{'Product_ID':pId}).then(res=> {
             this.pdetail =res.result[0];
+            console.log(this.pdetail)
         })
+        
     },
     methods: {
         exchange () {

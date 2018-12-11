@@ -30,4 +30,4 @@ const post = function (url,data) {
         })
     })
 }
-export {fetch,post}
+export {fetch,post,httpUrl}

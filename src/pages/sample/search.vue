@@ -1,22 +1,39 @@
 <template>
     <div class="search">
         <div class="input-group flex-box flex-center">
-            <span class="icon search"></span><input type="text" placeholder="搜索样品">
+            <span class="icon search"></span><input type="text" v-model.trim="Product_Name" placeholder="搜索样品">
         </div>
         <ul class="search-list">
-            <li>6100 - Electronics Bonding</li>
-            <li>1230 - Performance Label Materials</li>
-            <li>1570 - B&CSD Fire Protection Products</li>
+            <router-link :to="{name:'detail',query:{id:item.Product_ID}}" :key="item.Product_ID" tag="li" v-for="item in productList">
+            {{item.Product_Name}}
+            </router-link>
         </ul>
         <div class="btn-group flex-box flex-center">
-            <button class="btn reaset">重置</button>
-            <button class="btn confirm">确认</button>
+            <button class="btn reaset" @click="reaset">重置</button>
+            <button class="btn confirm" @click="onSubmit">确认</button>
         </div>
     </div>
 </template>
 <script>
 export default {
-
+    data() {
+        return {
+            Product_Name: '',
+            productList: []
+        }
+    },
+    methods:{
+        onSubmit() {
+            this.$post("/api/WxWeb/GetProductList",{'Opt':3,'Product_Name': this.Product_Name}).then( res=> {
+                this.productList = res.result
+                console.log(res)
+            })
+        },
+        reaset() {
+            this.productList = [],
+            this.Product_Name = ''
+        }
+    }
 }
 </script>
 <style lang="scss">

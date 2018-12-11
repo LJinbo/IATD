@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="order-info">
-                        <p class="flex-box flex-space-between"><span>总积分：180 分</span> <span>审核：{{item.Order_CheckUserName}}</span></p>
+                        <p class="flex-box flex-space-between"><span>总积分：180 分</span> <span v-if="item.Order_Status!=1">审核：{{item.Order_CheckUserName}}</span></p>
                         <p>申请时间：{{item.Order_CreateTime}}</p>
                     </div>
                 </li>
