@@ -92,5 +92,21 @@ export default {
             }
         }
     }
+    .no-content{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+        img{
+            width: 2rem;
+        }
+        .tip{
+            margin-top: .5rem;
+            font-size: .32rem;
+            color: #666;
+            white-space: nowrap;
+        }
+    }
 }
 </style>

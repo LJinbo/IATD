@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <ul class="list">
-            <li :class="{'active': item.User_IsDeafult}" :key="item.ID" @click="selectAddr" v-for="item in addresList">
+            <li :class="{'active':caddr?item.ID == caddr.ID:false}" :key="item.ID" @click="selectAddr(item)" v-for="item in addresList">
                 <div class="select"></div>
                 <div class="message">
                     <p><span class="name">{{item.User_Name}}</span><span class="phone">{{item.User_Phone}}</span></p>
@@ -19,10 +19,12 @@ export default{
         return {
             userInfo: {},
             addresList: [],
+            caddr: {},
         }
     },
     created () {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.caddr = JSON.parse(localStorage.getItem('selectReceiver'))
         this.$post('/api/WxWeb/GetAddress',{'UserID': this.userInfo.User_Id}).then(res => {
             console.log(res);
             this.addresList = res.result
@@ -37,6 +39,7 @@ export default{
         selectAddr (obj) {
             let sObj = JSON.stringify(obj);
             localStorage.setItem('selectReceiver',sObj);
+             this.$router.go(-1)
         }
     }
 }

@@ -58,7 +58,6 @@ export default{
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.receiver = JSON.parse(localStorage.getItem('editReceiver'));
         this.$fetch('/api/WxWeb/GetProvinceList').then( res => {
-            console.log(res);
             this.addres = res;
         })
     },

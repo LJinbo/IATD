@@ -1,13 +1,13 @@
 <template>
     <div class="fillOrder grayBg site-main">
         <top-hd :title="hdTitle" class="m-hd"></top-hd>
-        <div class="addr flex-box flex-align-center">
+        <router-link :to="{name:'selectReceiver'}" tag="div" class="addr flex-box flex-align-center">
             <div class="Avatar"><img src="../../assets/images/Avatar.png" alt=""></div>
             <div class="text">
                 <p><span class="name">{{selectAddr.User_Name}}</span><span class="phone">{{selectAddr.User_Phone}}</span></p>
                 <p class="address">{{selectAddr.ProvinceName}}{{selectAddr.Cname}}{{selectAddr.Aname}}{{selectAddr.User_Street}}</p>
             </div>
-        </div>
+        </router-link>
         <div class="goods-info">
             <h3>商品信息</h3>
             <ul>
@@ -124,8 +124,8 @@ export default {
                 'Order_Quantity': this.changeNum,
                 'Order_AddressId': this.activeaddrId
             }).then(res =>{
-                this.orderform.orderform = res.result;
-                if(this.orderform.orderform){
+                this.orderform.OrderID = res.result;
+                if(this.orderform.OrderID){
                     this.$post('/api/WxWeb/SaveOrderDetails',this.orderform).then(res=>{
                         this.$Toast({
                             message: res.msg,
@@ -134,6 +134,7 @@ export default {
                         });
                         let s = setTimeout( () => {
                             clearTimeout(s)
+                            localStorage.removeItem('selectReceiver')
                             this.$router.push({name: 'success'});
                         },2000)
                     })
@@ -143,10 +144,16 @@ export default {
     },
     computed: {
         selectAddr () {
-            for (let i = 0;i<this.addr.length;i++){
-                if(this.addr[i].User_IsDeafult == 1){
-                    this.activeaddrId = this.addr[i].ID;
-                    return this.addr[i];
+            let selectReceiver = JSON.parse(localStorage.getItem('selectReceiver'));
+            if(selectReceiver){
+                this.activeaddrId = selectReceiver.ID;
+                return selectReceiver
+            }else{
+                for (let i = 0;i<this.addr.length;i++){
+                    if(this.addr[i].User_IsDeafult == 1){
+                        this.activeaddrId = this.addr[i].ID;
+                        return this.addr[i];
+                    }
                 }
             }
         }

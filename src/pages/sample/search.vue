@@ -4,8 +4,9 @@
             <span class="icon search"></span><input type="text" v-model.trim="Product_Name" placeholder="搜索样品">
         </div>
         <ul class="search-list">
-            <router-link :to="{name:'detail',query:{id:item.Product_ID}}" :key="item.Product_ID" tag="li" v-for="item in productList">
-            {{item.Product_Name}}
+            <h5>分类：</h5>
+            <router-link :to="{name:'hot',query:{opt:2,type:item.Dic_ID}}" :key="item.Dic_ID" tag="li" v-for="item in ProductType">
+            {{item.Dic_Name}}
             </router-link>
         </ul>
         <div class="btn-group flex-box flex-center">
@@ -19,15 +20,18 @@ export default {
     data() {
         return {
             Product_Name: '',
-            productList: []
+            productList: [],
+            ProductType:[],
         }
+    },
+    created() {
+         this.$post("/api/WxWeb/GetProductType",{'Opt':1}).then( res=> {
+            this.ProductType = res.result;
+         })
     },
     methods:{
         onSubmit() {
-            this.$post("/api/WxWeb/GetProductList",{'Opt':3,'Product_Name': this.Product_Name}).then( res=> {
-                this.productList = res.result
-                console.log(res)
-            })
+           this.$router.push({name: 'hot',query:{'opt':3,'name':this.Product_Name}});
         },
         reaset() {
             this.productList = [],

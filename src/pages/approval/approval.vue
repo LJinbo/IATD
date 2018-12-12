@@ -4,39 +4,43 @@
         <div class="container">
             <div class="tabs">
                 <ul class="flex-box">
-                    <li :class="{'active': acTab == 'all'}" @click="switchTab('all')">全部</li>
-                    <li :class="{'active': acTab == 'wait'}" @click="switchTab('wait')">待审核</li>
-                    <li :class="{'active': acTab == 'error'}" @click="switchTab('error')">审核失败</li>
-                    <li :class="{'active': acTab == 'success'}" @click="switchTab('success')">审核通过</li>
+                    <li :class="{'active': acTab == 'all'}" @click="switchTab('all',0)">全部</li>
+                    <li :class="{'active': acTab == 'wait'}" @click="switchTab('wait',1)">待审核</li>
+                    <li :class="{'active': acTab == 'error'}" @click="switchTab('error',2)">审核失败</li>
+                    <li :class="{'active': acTab == 'success'}" @click="switchTab('success',3)">审核通过</li>
                 </ul>
             </div>
             <ul class="approval-list">
-                <li class="item">
+                <li class="item" :key="item.Order_ID"  v-for="item in approvalList">
                     <div class="approval-Status flex-box flex-space-between">
                         <div class="num">
-                            订单编号：<span>11977240</span>
+                            订单编号：<span>{{item.Order_Number}}}</span>
                         </div>
-                        <div class="Status">待审核</div>
+                        <div class="Status" v-html="Order_Status[item.Order_Status]"></div>
                     </div>
                     <div class="goods-info flex-box flex-align-center">
                         <div class="goods-img"><img src="../../assets/images/sample-s.png" alt=""></div>
                         <div class="text flex-1">
-                            <p class="name">3M™ Laser Markable Label Stock</p>
-                            <p class="price">积分：99分</p>
+                            <p class="name">{{item.Order_Product_Name}}</p>
+                            <!-- <p class="price">积分：99分</p> -->
                         </div>
                         <div class="goods-num">
-                            x<span>1</span>
+                            x<span>{{item.Order_Quantity}}</span>
                         </div>
                     </div>
                     <div class="approval-info flex-box">
                         <div class="col-1 flex-1">
-                            <p class="flex-box flex-space-between"><span>总积分：180 分</span></p>
-                            <p>申请时间：2018-10-31 15:00:00</p>
-                            <p>申请人：3M 经销商  （Code ：00001）</p>
+                            <p class="flex-box flex-space-between">
+                                <!-- <span>总积分：180 分</span> -->
+                                </p>
+                            <p>申请时间：{{item.Order_CreateTime}}</p>
+                            <p>申请人：{{User_Role_Type[item.User_Role_Type]}} （姓名：{{item.User_Name}}）</p>
                         </div>
-                        <div class="col-2">
-                            <p>审核：Jimmy</p>
-                            <router-link :to="{name: 'approvalDetail'}" class="btn on" tag="p">立即审核</router-link>
+                        <div class="col-2" v-if="item.Order_Status==1">
+                            <router-link :to="{name: 'approvalDetail',query:{id:item.Order_ID,status:item.Order_Status}}" class="btn on" tag="p">立即审核</router-link>
+                        </div>
+                          <div class="col-2" v-if="item.Order_Status!=1">
+                            <router-link :to="{name: 'approvalDetail',query:{id:item.Order_ID,status:item.Order_Status,source:1}}" class="btn" tag="p">查看详情</router-link>
                         </div>
                     </div>
                 </li>
@@ -50,12 +54,34 @@ export default {
     data () {
         return {
              hdTitle: '3M IATD 我的审批',
-             acTab: 'all'
+             acTab: 'all',
+             approvalList:[],
+             type:0,
+             Order_Status: {
+                1:'<span style="color:#f7590b !important;">待审核</span>',
+                2:'<span style="color:red !important;">审核失败</span>',
+                3:'<span style="color:#1ab394 !important;">审核通过</span>',
+                4:'<span style="color:#c2c2c2 !important;">取消</span>'
+            },
+            User_Role_Type:{
+                2:'3M员工',
+                3:'3M 经销商',
+                4:'3M 授权用户'
+            }
         }
     },
+    created() {
+        this.switchTab('all',0);
+    },
     methods: {
-        switchTab(el) {
-            this.acTab = el
+        switchTab(el,type) {
+            this.type=type;
+            this.acTab = el;
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            this.$post('/api/WxWeb/SreachExamineList',{'Product_Owner':this.userInfo.User_Id,'Order_Status': this.type}).then(res=> {
+                console.log(res);
+                this.approvalList = res.result
+            })
         }
     },
     components: {
@@ -128,11 +154,12 @@ export default {
         .col-2{
             position: relative;
             .btn{
-                height: .32rem;
-                line-height: .32rem;
+                width:1.2rem;
+                line-height: 1;
                 border: 1px solid #B8B9B9;
                 padding: 0 .1rem;
                 border-radius: .1rem;
+                padding: 0.1rem 0.2rem;
                 position: absolute;
                 right: 0;
                 bottom: 0;

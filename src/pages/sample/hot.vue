@@ -8,6 +8,10 @@
                 <div class="s-name">{{item.Product_Name}}</div>
                 <div class="price">积分：999分</div>
             </router-link>
+            <li class="no-content" v-if="productList.length == 0">
+                <img src="../../assets/images/no-product.png" alt="">
+                <div class="tip">没有找到相关的样品哦。。。</div>
+            </li>
         </ul>
     </div>
 </template>
@@ -24,7 +28,7 @@ export default {
     },
     created() {
         this.$post("/api/WxWeb/GetProductList",{'Opt':0}).then( res=> {
-            this.productList = res.result
+            // this.productList = res.result
             console.log(res)
         })
     },

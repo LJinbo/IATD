@@ -5,7 +5,8 @@
             <div class="info mt30 flex-box flex-justify-center">
                 <div class="col-1">
                     <div class="Avatar">
-                        <img src="../../assets/images/Avatar.png" alt="">
+                        <img src="../../assets/images/Avatar.png" v-if="!userInfo.User_Head_Url">
+                        <img :src="Url+userInfo.User_Head_Url" v-else>
                     </div>
                     <p>{{userType}}</p>
                 </div>
@@ -54,12 +55,14 @@
     </div>
 </template>
 <script>
-import topHd from '../../components/topHd' 
+import topHd from '../../components/topHd'
+import {httpUrl} from '../../assets/js/request.js'
 export default {
     data () {
         return {
              hdTitle: '3M IATD 会员中心',
-             userInfo: {}
+             userInfo: {},
+             Url: httpUrl,
         }
     },
     created() {

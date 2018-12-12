@@ -5,7 +5,9 @@
             <div class="info mt30 flex-box flex-center">
                 <div class="col-1">
                     <div class="Avatar">
-                        <img src="../../assets/images/Avatar.png" alt="">
+                        <input class="Avatarfile" type="file" id='uploadFile' ref="uploadFile" @change="Upload">
+                        <img src="../../assets/images/Avatar.png" v-if="!userInfo.User_Head_Url">
+                        <img :src="Url+userInfo.User_Head_Url" v-else>
                     </div>
                     <p>{{userType}}</p>
                 </div>
@@ -32,9 +34,7 @@
                 </div>
                 <select v-model="userInfo.City">
                     <option value="" selected>请选择城市</option>
-                    <option value="shenzhen">深圳</option>
-                    <option value="beijing">北京</option>
-                    <option value="shanghai">上海</option>
+                    <option :value="item.Pcode" :key="item.Id" v-for="item in province">{{item.ProvinceName}}</option>
                 </select>
             </div>
             <div class="input-group">
@@ -72,17 +72,25 @@
     </div>
 </template>
 <script>
-import topHd from '../../components/topHd' 
+import topHd from '../../components/topHd'
+import {httpUrl} from '../../assets/js/request.js'
 export default {
     data () {
         return {
              hdTitle: '3M IATD 会员信息',
              userInfo: {},
-             Market: 1
+             Market: 1,
+             upload: '',
+             Url: httpUrl,
+             province: []
         }
     },
     created() {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.$fetch('/api/WxWeb/GetProvinceList').then( res => {
+            console.log(res);
+            this.province = res.province;
+        })
     },
     computed: {
         userType () {
@@ -96,6 +104,20 @@ export default {
         }
     },
     methods: {
+        Upload () {
+            var reads= new FileReader();
+            let f=document.getElementById('uploadFile').files[0];
+            let that = this;
+            reads.readAsDataURL(f);
+            reads.onload=function (e) {
+                // document.getElementById('show').src=this.result;
+                if(this.result){
+                    that.$post('/api/WxWeb/SaveFileImage',{'User_Head_Ur': this.result}).then(res=>{
+                        console.log(res);
+                    })
+                }
+            };
+        },
         onSubmit() {
             this.$post('/api/WxWeb/SaveUserInfo',{
                 'User_Id':this.userInfo.User_Id,
@@ -132,6 +154,16 @@ export default {
         color: #fff;
         .Avatar{
             width: 1.2rem;
+            height: 1.2rem;
+            position: relative;
+            .Avatarfile{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                right: 0;
+                opacity: 0;
+            }
         }
     }
     .user-name{

@@ -23,15 +23,18 @@
                         <div class="goods-img"><img src="../../assets/images/sample-s.png" alt=""></div>
                         <div class="text flex-1">
                             <p class="name">{{item.Order_Product_Name}}</p>
-                            <p class="price">积分：99分</p>
+                            <!-- <p class="price">积分：99分</p> -->
                         </div>
                         <div class="goods-num">
                             x<span>1</span>
                         </div>
                     </div>
                     <div class="order-info">
-                        <p class="flex-box flex-space-between"><span>总积分：180 分</span> <span v-if="item.Order_Status!=1">审核：{{item.Order_CheckUserName}}</span></p>
-                        <p>申请时间：{{item.Order_CreateTime}}</p>
+                        <p class="flex-box flex-space-between"><span v-if="item.Order_Status!=1">审核：{{item.Order_CheckUserName}}</span></p>
+                        <p>申请时间：{{formatDate(item.Order_CreateTime)}}</p>
+                    </div>
+                     <div class="col-2">
+                        <router-link :to="{name: 'approvalDetail',query:{id:item.Order_ID,status:item.Order_Status,source:2}}" class="btn" tag="p">查看详情</router-link>
                     </div>
                 </li>
             </ul>
@@ -66,9 +69,35 @@ export default {
         switchTab (el,cate) {
             this.acTab = el;
             this.$post('/api/WxWeb/GetOrderList',{'Order_UserID':this.userInfo.User_Id,'Order_Status': cate}).then(res=> {
-            this.orderList = res.result
-        })
-        }
+                this.orderList = res.result
+            })
+        },
+        formatDate(str, fmt){
+               var date=new Date(str);
+               if(fmt==undefined||fmt==null||fmt==""){
+                   fmt="yyyy-MM-dd hh:mm:ss";
+               }
+               if (/(y+)/.test(fmt)) {
+                    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+               }
+               let o = {
+                    'M+': date.getMonth() + 1,
+                    'd+': date.getDate(),
+                    'h+': date.getHours(),
+                    'm+': date.getMinutes(),
+                    's+': date.getSeconds()
+                };
+                for (let k in o) {
+                    if (new RegExp(`(${k})`).test(fmt)) {
+                        let str = o[k] + '';
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+                    }
+                }
+                return fmt;
+                function padLeftZero(str) {
+                    return ('00' + str).substr(str.length);
+                }
+        },
     },
     components: {
         topHd,
@@ -128,6 +157,20 @@ export default {
             .price{
                 color: #898989;
                 margin-top: .15rem;
+            }
+        }
+         .col-2{
+            position: relative;
+            .btn{
+                width:1.2rem;
+                display: inline-block;
+                line-height: 1;
+                padding: 0.1rem 0.2rem;
+                border: 1px solid #B8B9B9;
+                border-radius: .1rem;
+                position: absolute;
+                right: 0;
+                bottom: -0.15rem;
             }
         }
     }
