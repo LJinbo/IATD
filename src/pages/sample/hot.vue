@@ -28,7 +28,7 @@ export default {
     },
     created() {
         this.$post("/api/WxWeb/GetProductList",{'Opt':0}).then( res=> {
-            // this.productList = res.result
+            this.productList = res.result
             console.log(res)
         })
     },
