@@ -42,12 +42,19 @@
                 <div class="row">
                     <div class="col label">兑换：</div>
                     <div class="col flex-1">
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col label"></div>
+                    <div class="col flex-1">
                         <div class="num-control">
                             <span class="cut" @click="cut">-</span>
                             <input type="number" v-model="changeNum" class="num">
                             <span class="add" @click="add">+</span>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="row mt20">
                      <div class="col label"></div>
@@ -202,6 +209,11 @@ export default {
             text-align: center;
             align-items: center;
             padding:.2rem 0;
+            input{
+                border: 1px solid #eee;
+                padding: 0;
+                width: 3rem;
+            }
             .label{
                 width: 1rem;
                 text-align: right;

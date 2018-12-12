@@ -68,7 +68,7 @@ export default{
         }
         .select,.edit{
             width: .4rem;
-            height: .4rem;
+            height: 1.25rem;
         }
         .select{
             background: url('../../assets/images/addr-off.png') center no-repeat;

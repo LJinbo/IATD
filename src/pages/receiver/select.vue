@@ -7,7 +7,7 @@
                     <p><span class="name">{{item.User_Name}}</span><span class="phone">{{item.User_Phone}}</span></p>
                     <p class="address">{{item.ProvinceName}}&nbsp;{{item.Cname}}{{item.Aname}}{{item.User_Street}}</p>
                 </div>
-                <div class="edit" @click="editReceiver(item)"></div>
+                <div class="edit" @click.stop="editReceiver(item)"></div>
             </li>
         </ul>
         <router-link :to="{name:'addReceiver'}" tag="button" class="btn add-address longBtn"><span class="addr-icon"></span>添加新收货人</router-link>

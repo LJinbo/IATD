@@ -112,7 +112,7 @@ export default{
                 });
                 let s = setTimeout( () => {
                     clearTimeout(s)
-                    this.$router.push({name: 'receiver'});
+                    this.$router.go(-1)
                 },2000)
             })
         }
